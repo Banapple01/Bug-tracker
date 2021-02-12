@@ -28,12 +28,12 @@ class login_manager(models.Manager):
             errors['password'] = "Password must be at least 10 characters"
         return errors
         
-    def job_validator(self, postData):
+    def bug_validator(self, postData):
         errors = {}
         if len(postData['title']) < 3:
             errors['title'] = "title must be at least 3 characters"
-        if len(postData['desc']) < 3:
-            errors['desc'] = "Description must be at least 3 characters"
+        if len(postData['desc']) < 10:
+            errors['desc'] = "Description must be at least 10 characters"
         return errors
 
 class User(models.Model):
@@ -47,7 +47,7 @@ class User(models.Model):
 class Bug(models.Model):
     title = models.CharField(max_length=255)
     desc = models.TextField()
-    user = models.ForeignKey(User, related_name="jobs", on_delete = models.CASCADE)
+    user = models.ForeignKey(User, related_name="bugs", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = login_manager()
