@@ -1,23 +1,24 @@
 import axios from 'axios';
 import { createMessage, returnErrors } from './messages';
+import { tokenConfig } from "./auth";
 
-import { GET_BUGS, DELETE_BUG, ADD_BUG, GET_ERRORS } from './types';
+import { GET_BUGS, DELETE_BUG, ADD_BUG } from './types';
 
 // GET BUGS
-export const getBugs = () => dispatch => {
-    axios.get('/api/bugs/')
+export const getBugs = () => (dispatch, getState) => {
+    axios.get('/api/bugs/', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_BUGS,
                 payload: res.data
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
 // Delete BUG
-export const deleteBug = (id) => dispatch => {
-    axios.delete(`/api/bugs/${id}/`)
+export const deleteBug = (id) => (dispatch, getState) => {
+    axios.delete(`/api/bugs/${id}/`, tokenConfig(getState))
         .then(res => {
             dispatch(createMessage({ bugDelete: "Bug Deleted!" }))
             dispatch({
@@ -25,21 +26,13 @@ export const deleteBug = (id) => dispatch => {
                 payload: id
             });
         })
-        .catch(err => {
-            const errors = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch({
-                type: GET_ERRORS,
-                payload: errors
-            })
-        });
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
 // Add BUG
-export const addBug = (bug) => dispatch => {
-    axios.post("/api/bugs/", bug)
+export const addBug = (bug) => (dispatch, getState) => {
+    console.log(bug, tokenConfig(getState))
+    axios.post("/api/bugs/", bug, tokenConfig(getState))
         .then(res => {
             dispatch(createMessage({ bugAdd: "Bug Added!" }))
             dispatch({
@@ -47,14 +40,5 @@ export const addBug = (bug) => dispatch => {
                 payload: res.data
             });
         })
-        .catch(err => {
-            const errors = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch({
-                type: GET_ERRORS,
-                payload: errors
-            })
-        });
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }

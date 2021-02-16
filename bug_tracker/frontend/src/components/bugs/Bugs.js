@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getBugs, deleteBug } from '../../actions/bugs';
-import bugs from '../../reducers/bugs';
 
 export class Bugs extends Component {
     static propTypes = {
@@ -25,20 +24,19 @@ export class Bugs extends Component {
                             <th>ID</th>
                             <th>Title</th>
                             <th>Desc</th>
-                            <th>User ID</th>
                             <th />
                         </tr>
                     </thead>
                     <tbody>
-                        { this.props.bugs.map(bug => (
+                        { this.props.bugs.map((bug) => (
                             <tr key={bug.id}>
                                 <td>{bug.id}</td>
                                 <td>{bug.title}</td>
                                 <td>{bug.desc}</td>
-                                <td>{bug.user}</td>
                                 <td>
                                     <button onClick={this.props.deleteBug.bind(this, bug.id)} 
                                             className="btn btn-danger btn-sm">
+                                                {' '}
                                                 Delete
                                     </button>
                                 </td>

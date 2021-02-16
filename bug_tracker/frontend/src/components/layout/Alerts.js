@@ -16,11 +16,15 @@ export class Alerts extends Component {
             if(error.msg.title) {alert.error(`Title: ${error.msg.title.join()}`)}
             if(error.msg.desc) {alert.error(`Description: ${error.msg.desc.join()}`)}
             if(error.msg.user) {alert.error(`User: ${error.msg.user.join()}`)}
+            if(error.msg.non_field_errors) {alert.error(error.msg.non_field_errors.join())}
+            if(error.msg.username) {alert.error(error.msg.username.join())}
+            if(error.msg.email) {alert.error(error.msg.email.join())}
         }
 
         if(message !== prevProps.message) {
-            if(message.bugDelete) alert.success(message.bugDelete);
-            if(message.bugAdd) alert.success(message.bugAdd);
+            if(message.bugDelete) {alert.success(message.bugDelete)}
+            if(message.bugAdd) {alert.success(message.bugAdd)}
+            if(message.passwordsNotMatch) {alert.error(message.passwordsNotMatch)}
         }
     }
 

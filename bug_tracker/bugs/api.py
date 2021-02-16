@@ -1,20 +1,18 @@
 from django.db.models.query import QuerySet
-from .models import Bug, User
+from .models import Bug
 from rest_framework import viewsets, permissions
-from .serializers import BugSerializer, UserSerializer
+from .serializers import BugSerializer
 
-#User Viewset
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    permission_classes = [
-        permissions.AllowAny
-    ]
-    serializer_class = UserSerializer
 
 #Bug Viewset
 class BugViewSet(viewsets.ModelViewSet):
-    queryset = Bug.objects.all()
     permission_classes = [
-        permissions.AllowAny
+        permissions.IsAuthenticatedOrReadOnly,
     ]
     serializer_class = BugSerializer
+
+    queryset = Bug.objects.all()
+
+    def perform_create(self, serializer):
+        print(self.request.user)
+        serializer.save(user=self.request.user)

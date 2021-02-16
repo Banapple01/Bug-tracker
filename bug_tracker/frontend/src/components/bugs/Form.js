@@ -7,7 +7,6 @@ export class Form extends Component {
     state = {
         title: '',
         desc: '',
-        user: ''
     };
 
     static propTypes = {
@@ -20,21 +19,20 @@ export class Form extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        const { title, desc, user } = this.state;
-        const bug = { title, desc, user };
+        const { title, desc } = this.state;
+        const bug = { title, desc };
         this.props.addBug(bug);
         this.setState({
             title: '',
             desc: '',
-            user: ''
         });
     };
 
     render() {
-        const { title, desc, user } = this.state;
+        const { title, desc,} = this.state;
         return (
             <div className="card card-body mt-4 mb-4">
-                <h2>Add Lead</h2>
+                <h2>Add Bug</h2>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Title</label>
@@ -58,7 +56,7 @@ export class Form extends Component {
                         value={desc}
                         />
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label>User ID</label>
                         <input
                         className="form-control"
@@ -69,7 +67,7 @@ export class Form extends Component {
                         onChange={this.onChange}
                         value={user}
                         />
-                    </div>
+                    </div> */}
                     <div className="form-group">
                         <button type="submit" className="btn btn-primary">
                         Submit
